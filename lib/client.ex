@@ -119,10 +119,11 @@ defmodule Mailgun.Client do
       text: Dict.get(email, :text, ""),
       html: Dict.get(email, :html, ""),
       subject: Dict.get(email, :subject, ""),
-      "h:Reply-To": "azhar@evercam.io",
     })
     bcc     = Dict.get(email, :bcc)
     attrs   = if bcc, do: put_in(attrs[:bcc], bcc), else: attrs
+    reply_to = Dict.get(email, :reply_to)
+    attrs   = if reply_to, do: put_in(attrs, ["h:Reply-To"], reply_to), else: attrs
     ctype   = 'application/x-www-form-urlencoded'
     body    = URI.encode_query(Dict.drop(attrs, [:attachments]))
 
