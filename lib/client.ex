@@ -123,7 +123,7 @@ defmodule Mailgun.Client do
     bcc     = Dict.get(email, :bcc)
     attrs   = if bcc, do: put_in(attrs[:bcc], bcc), else: attrs
     reply_to = Dict.get(email, :reply_to)
-    attrs   = if reply_to, do: put_in(attrs["h:Reply-To"], reply_to), else: attrs
+    attrs   = if reply_to, do: Map.merge(attrs, %{"h:Reply-To" => reply_to}), else: attrs
     ctype   = 'application/x-www-form-urlencoded'
     body    = URI.encode_query(Dict.drop(attrs, [:attachments]))
 
